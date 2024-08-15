@@ -3,7 +3,7 @@
 ############
 
 resource "aws_db_subnet_group" "db_SubnetGroup" {
-  name = "${local.prefix}-db_SubnetGroup"
+  name = "${local.prefix}-db_subnetgroup"
   subnet_ids = [
     aws_subnet.private_a.id,
     aws_subnet.private_b.id
