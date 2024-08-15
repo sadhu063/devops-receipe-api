@@ -2,8 +2,8 @@
 # Database #
 ############
 
-resource "aws_db_subnet_group" "main" {
-  name = "${local.prefix}-main"
+resource "aws_db_subnet_group" "db_SubnetGroup" {
+  name = "${local.prefix}-db-subnetgroup"
   subnet_ids = [
     aws_subnet.private_a.id,
     aws_subnet.private_b.id
@@ -23,6 +23,8 @@ resource "aws_security_group" "rds" {
     protocol  = "tcp"
     from_port = 5432
     to_port   = 5432
+
+
   }
 
   tags = {
@@ -30,24 +32,24 @@ resource "aws_security_group" "rds" {
   }
 }
 
-resource "aws_db_instance" "main" {
+resource "aws_db_instance" "postgresSQLDB" {
   identifier                 = "${local.prefix}-db"
   db_name                    = "recipe"
   allocated_storage          = 20
   storage_type               = "gp2"
   engine                     = "postgres"
-  engine_version             = "15.3"
+  engine_version             = "16.4"
   auto_minor_version_upgrade = true
   instance_class             = "db.t4g.micro"
   username                   = var.db_username
   password                   = var.db_password
   skip_final_snapshot        = true
-  db_subnet_group_name       = aws_db_subnet_group.main.name
+  db_subnet_group_name       = aws_db_subnet_group.db_SubnetGroup.name
   multi_az                   = false
   backup_retention_period    = 0
   vpc_security_group_ids     = [aws_security_group.rds.id]
 
   tags = {
-    Name = "${local.prefix}-main"
+    Name = "${local.prefix}-postgresSQLDB"
   }
 }
