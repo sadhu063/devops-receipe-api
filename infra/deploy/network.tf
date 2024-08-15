@@ -9,9 +9,9 @@ resource "aws_vpc" "main" {
   enable_dns_support   = true
 }
 
-#########################################################
-# Internet Gateway needed for Inbound access to the ALB #
-#########################################################
+##########################################################
+# Internet Gateway needed for Inbound access to the ALB  #
+##########################################################
 
 
 resource "aws_internet_gateway" "igw" {
